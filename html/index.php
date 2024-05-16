@@ -2,8 +2,12 @@
 
 	$F = file('/var/www/redirects.drk-witten.de/data/redirects.txt',FILE_IGNORE_NEW_LINES);
 
+	if (str_contains($_SERVER['REQUEST_URI'])) {
+		list($suchstring,$params) = explode('?', strtolower($_SERVER['REQUEST_URI']));
+	} else {
+		$suchstring = strtolower($_SERVER['REQUEST_URI']));
+	}
 
-	list($suchstring,$params) = explode('?', strtolower($_SERVER['REQUEST_URI']));
 	if (substr($suchstring,-1) == "/") {
 		$suchstring = substr($suchstring,0,-1);
 		// mail("jens@struppek.de","test",$suchstring);
@@ -20,7 +24,7 @@
 
 	$url .= "&pk_kwd=" . $suchstring;
 
-	if (substr($suchstring,0,6)=='fbclid') {
+	if (substr($params,0,6)=='fbclid') {
 		$url .= "?pk_source=FB";
 	}
 
